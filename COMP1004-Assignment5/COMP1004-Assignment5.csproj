@@ -104,6 +104,7 @@
     <Content Include="Resources\seven.gif" />
     <Content Include="Resources\slotmachine.gif" />
     <Content Include="Resources\spin.gif" />
+    <None Include="Resources\spin.png" />
     <Content Include="Resources\spin_disabled.gif" />
     <Content Include="Resources\spin_pressed.gif" />
   </ItemGroup>
