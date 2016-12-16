@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+ * App Name: Assignment 4
+ * Name: Jamie Shannon
+ * StudentID: 200328763
+ * Date: Dec 16/16
+ * Description: Slot Machine Application that allows the user to place a bet and run a slot machine.
+ * Winnings are determined based on the roll of the slots and the user has the opportunity to 
+ * win a jackpot if they are lucky.
+ */
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +24,8 @@ namespace COMP1004_Assignment5
 {
     public partial class SlotMachineForm : Form
     {
+
+        // Declare variables for the class
         private int playerMoney = 1000;
         private int winnings = 0;
         private int jackpot = 5000;
@@ -21,7 +34,6 @@ namespace COMP1004_Assignment5
         private float winNumber = 0.0f;
         private float lossNumber = 0.0f;
         private string[] spinResult;
-        private string fruits = "";
         private float winRatio = 0.0f;
         private float lossRatio = 0.0f;
         private int grapes = 0;
@@ -80,6 +92,15 @@ namespace COMP1004_Assignment5
             winNumber = 0;
             lossNumber = 0;
             winRatio = 0.0f;
+
+            //Reset the labels and the images to the spin logo
+            TotalCreditsLabel.Text = "1000";
+            BetLabel.Text = "0";
+            WiningsLabel.Text = "0";
+            JackpotLabel.Text = "5000";
+            FirstReelPictureBox.Image = Properties.Resources.spin1;
+            SecondReelPictureBox.Image = Properties.Resources.spin1;
+            ThirdReelPictureBox.Image = Properties.Resources.spin1;
         }
 
         /* Check to see if the player won the jackpot */
@@ -90,9 +111,17 @@ namespace COMP1004_Assignment5
             var jackPotWin = this.random.Next(51) + 1;
             if (jackPotTry == jackPotWin)
             {
+                //show a message to indicate the jackpot has been won, pay the player and reset the jackpot amount
                 MessageBox.Show("You Won the $" + jackpot + " Jackpot!!", "Jackpot!!");
                 playerMoney += jackpot;
-                jackpot = 1000;
+                jackpot = 5000;
+                JackpotLabel.Text = "JACKPOT " + jackpot.ToString();
+            }
+            else
+            {
+                //if the jackpot is not won, increase it by $100
+                jackpot += 100;
+                JackpotLabel.Text = "JACKPOT " + jackpot.ToString();
             }
         }
 
@@ -100,7 +129,8 @@ namespace COMP1004_Assignment5
         private void showWinMessage()
         {
             playerMoney += winnings;
-            MessageBox.Show("You Won: $" + winnings, "Winner!");
+            WiningsLabel.Text = winnings.ToString();
+            
             resetFruitTally();
             checkJackPot();
         }
@@ -109,8 +139,11 @@ namespace COMP1004_Assignment5
         private void showLossMessage()
         {
             playerMoney -= playerBet;
-            MessageBox.Show("You Lost!", "Loss!");
+            WiningsLabel.Text = "LOSE";
+           
             resetFruitTally();
+            jackpot += 100;
+            JackpotLabel.Text = "JACKPOT " + jackpot.ToString();
         }
 
         /* Utility function to check if a value falls within a range of bounds */
@@ -256,8 +289,15 @@ namespace COMP1004_Assignment5
 
         }
 
+        /// <summary>
+        /// Spin the slots. Updaet the images based on what is rolled. Determine winnings
+        /// and update labels.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SpinPictureBox_Click(object sender, EventArgs e)
         {
+            //check if a bet has been placed
             if (Convert.ToInt16(BetLabel.Text) <= 0)
             {
                 MessageBox.Show("Please place a bet!", "No Bet!");
@@ -367,61 +407,101 @@ namespace COMP1004_Assignment5
                         ThirdReelPictureBox.Image = Properties.Resources.seven;
                     }
 
-                    fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
-                    MessageBox.Show(fruits);
+                    
                     determineWinnings();
+
                     turn++;
-                    showPlayerStats();
+                    
+                    playerBet = 0;
+                    BetLabel.Text = "0";
+                    TotalCreditsLabel.Text = playerMoney.ToString();
                 }
             }
             
         }
 
+        /// <summary>
+        /// Call AddBet method with the amount of the bet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bet1PictureBox_Click(object sender, EventArgs e)
         {
             AddBet(1);
         }
 
+        /// <summary>
+        /// Checks if the player has the money for the desired bet and updates the bet total if the can.
+        /// </summary>
+        /// <param name="bet"></param>
         private void AddBet(int bet)
         {
             //convert the current BetLabel to an int
-            int currentBet = Convert.ToInt16(BetLabel.Text);
+            playerBet = Convert.ToInt16(BetLabel.Text);
             int currentCredits = Convert.ToInt16(TotalCreditsLabel.Text);
 
             //check to ensure that the bet can be placed
-            if(currentCredits - bet < 0)
+            if(currentCredits - playerBet <= 0)
             {
                 MessageBox.Show("You do not have enough credits", "Insufficient Funds");
             }
             else
             {
                 //add the bet amount to the total bet
-                currentBet = currentBet + bet;
+                playerBet = playerBet + bet;
 
                 //subtract the bet amount from the credits total
                 currentCredits = currentCredits - bet;
 
                 //convert the new current bet and currentCredits amounts to strings and make the 
                 //labels equal to the new values
-                BetLabel.Text = currentBet.ToString();
-                TotalCreditsLabel.Text = currentCredits.ToString();
+                BetLabel.Text = playerBet.ToString();
+                //TotalCreditsLabel.Text = currentCredits.ToString();
             }
             
         }
 
+        /// <summary>
+        /// Call the AddBet method with the amount of the bet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bet10PictureBox_Click(object sender, EventArgs e)
         {
             AddBet(10);
         }
 
+
+        /// <summary>
+        /// Call the AddBet method with the amount of the bet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bet100PictureBox_Click(object sender, EventArgs e)
         {
             AddBet(100);
         }
 
+
+        /// <summary>
+        /// Close the application when the power button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PowerPictureBox_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+
+        /// <summary>
+        /// Reset the game when the reset button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetPictureBox_Click(object sender, EventArgs e)
+        {
+            resetAll();
         }
     }
 

@@ -128,17 +128,18 @@
             this.ResetPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ResetPictureBox.TabIndex = 14;
             this.ResetPictureBox.TabStop = false;
+            this.ResetPictureBox.Click += new System.EventHandler(this.ResetPictureBox_Click);
             // 
             // JackpotLabel
             // 
             this.JackpotLabel.AutoSize = true;
             this.JackpotLabel.BackColor = System.Drawing.Color.Black;
             this.JackpotLabel.ForeColor = System.Drawing.SystemColors.Window;
-            this.JackpotLabel.Location = new System.Drawing.Point(165, 142);
+            this.JackpotLabel.Location = new System.Drawing.Point(162, 142);
             this.JackpotLabel.Name = "JackpotLabel";
-            this.JackpotLabel.Size = new System.Drawing.Size(55, 13);
+            this.JackpotLabel.Size = new System.Drawing.Size(82, 13);
             this.JackpotLabel.TabIndex = 15;
-            this.JackpotLabel.Text = "JACKPOT";
+            this.JackpotLabel.Text = "JACKPOT 5000";
             // 
             // TotalCreditsLabel
             // 
@@ -170,9 +171,9 @@
             this.WiningsLabel.ForeColor = System.Drawing.SystemColors.Window;
             this.WiningsLabel.Location = new System.Drawing.Point(268, 307);
             this.WiningsLabel.Name = "WiningsLabel";
-            this.WiningsLabel.Size = new System.Drawing.Size(63, 13);
+            this.WiningsLabel.Size = new System.Drawing.Size(13, 13);
             this.WiningsLabel.TabIndex = 18;
-            this.WiningsLabel.Text = "WINNINGS";
+            this.WiningsLabel.Text = "0";
             // 
             // Bet1PictureBox
             // 
