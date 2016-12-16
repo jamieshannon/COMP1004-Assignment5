@@ -258,37 +258,170 @@ namespace COMP1004_Assignment5
 
         private void SpinPictureBox_Click(object sender, EventArgs e)
         {
-            playerBet = 10; // default bet amount
-
-            if (playerMoney == 0)
+            if (Convert.ToInt16(BetLabel.Text) <= 0)
             {
-                if (MessageBox.Show("You ran out of Money! \nDo you want to play again?", "Out of Money!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    resetAll();
-                    showPlayerStats();
-                }
-            }
-            else if (playerBet > playerMoney)
-            {
-                MessageBox.Show("You don't have enough Money to place that bet.", "Insufficient Funds");
-            }
-            else if (playerBet < 0)
-            {
-                MessageBox.Show("All bets must be a positive $ amount.", "Incorrect Bet");
-            }
-            else if (playerBet <= playerMoney)
-            {
-                spinResult = Reels();
-                fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
-                MessageBox.Show(fruits);
-                determineWinnings();
-                turn++;
-                showPlayerStats();
+                MessageBox.Show("Please place a bet!", "No Bet!");
             }
             else
             {
-                MessageBox.Show("Please enter a valid bet amount");
+                
+                if (playerBet <= playerMoney)
+                {
+                    spinResult = Reels();
+                    if(spinResult[0] == "blank")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.blank;
+                    }
+                    else if(spinResult[0] == "Grapes")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.grapes;
+                    }
+                    else if(spinResult[0] == "Banana")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.banana;
+                    }
+                    else if(spinResult[0] == "Orange")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.orange;
+                    }
+                    else if(spinResult[0] == "Cherry")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.cherry;
+                    }
+                    else if(spinResult[0] == "Bar")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.bar;
+                    }
+                    else if(spinResult[0] == "Bell")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.bell;
+                    }
+                    else if(spinResult[0] == "Seven")
+                    {
+                        FirstReelPictureBox.Image = Properties.Resources.seven;
+                    }
+
+                    if (spinResult[1] == "blank")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.blank;
+                    }
+                    else if (spinResult[1] == "Grapes")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.grapes;
+                    }
+                    else if (spinResult[1] == "Banana")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.banana;
+                    }
+                    else if (spinResult[1] == "Orange")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.orange;
+                    }
+                    else if (spinResult[1] == "Cherry")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.cherry;
+                    }
+                    else if (spinResult[1] == "Bar")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.bar;
+                    }
+                    else if (spinResult[1] == "Bell")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.bell;
+                    }
+                    else if (spinResult[1] == "Seven")
+                    {
+                        SecondReelPictureBox.Image = Properties.Resources.seven;
+                    }
+
+                    if (spinResult[2] == "blank")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.blank;
+                    }
+                    else if (spinResult[2] == "Grapes")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.grapes;
+                    }
+                    else if (spinResult[2] == "Banana")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.banana;
+                    }
+                    else if (spinResult[2] == "Orange")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.orange;
+                    }
+                    else if (spinResult[2] == "Cherry")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.cherry;
+                    }
+                    else if (spinResult[2] == "Bar")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.bar;
+                    }
+                    else if (spinResult[2] == "Bell")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.bell;
+                    }
+                    else if (spinResult[2] == "Seven")
+                    {
+                        ThirdReelPictureBox.Image = Properties.Resources.seven;
+                    }
+
+                    fruits = spinResult[0] + " - " + spinResult[1] + " - " + spinResult[2];
+                    MessageBox.Show(fruits);
+                    determineWinnings();
+                    turn++;
+                    showPlayerStats();
+                }
             }
+            
+        }
+
+        private void Bet1PictureBox_Click(object sender, EventArgs e)
+        {
+            AddBet(1);
+        }
+
+        private void AddBet(int bet)
+        {
+            //convert the current BetLabel to an int
+            int currentBet = Convert.ToInt16(BetLabel.Text);
+            int currentCredits = Convert.ToInt16(TotalCreditsLabel.Text);
+
+            //check to ensure that the bet can be placed
+            if(currentCredits - bet < 0)
+            {
+                MessageBox.Show("You do not have enough credits", "Insufficient Funds");
+            }
+            else
+            {
+                //add the bet amount to the total bet
+                currentBet = currentBet + bet;
+
+                //subtract the bet amount from the credits total
+                currentCredits = currentCredits - bet;
+
+                //convert the new current bet and currentCredits amounts to strings and make the 
+                //labels equal to the new values
+                BetLabel.Text = currentBet.ToString();
+                TotalCreditsLabel.Text = currentCredits.ToString();
+            }
+            
+        }
+
+        private void Bet10PictureBox_Click(object sender, EventArgs e)
+        {
+            AddBet(10);
+        }
+
+        private void Bet100PictureBox_Click(object sender, EventArgs e)
+        {
+            AddBet(100);
+        }
+
+        private void PowerPictureBox_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 
